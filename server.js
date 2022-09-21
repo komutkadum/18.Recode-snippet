@@ -13,7 +13,10 @@ const app = express();
 
 // middle ware
 app.use(cors({
-  origin:[process.env.CORS_ORIGIN_URL,process.env.CORS_ORIGIN_URL2,process.env.CORS_ORIGIN_URL3,"*"]
+  origin:"*",
+  methods:"GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue:false,
+  optionsSuccessStatus:200
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -22,6 +25,7 @@ app.use(express.urlencoded({extended:true}))
 app.use('/profile',profileRoute)
 app.use('/snippet',snippetRoute)
 app.use('/search',searchRoute)
+
 
 
 // main route
