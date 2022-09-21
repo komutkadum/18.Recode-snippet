@@ -7,7 +7,7 @@ router.get('/:id',async(req,res)=>{
     const id = req.params.id;
     try{
         const myLists = await SnippetModel.find({userId : id}).sort({ _id: -1 });
-        res.send(myLists)
+        res.status(200).send(myLists)
     }catch(err){
         res.status(500).send(err);
     }
@@ -31,7 +31,7 @@ router.get('/:userid/:search/:tags',async(req,res)=>{
     const {userid,search,tags} = req.params;
     try{
         const myLists = await SnippetModel.find({userId : userid,tags:tags});
-        res.send(myLists)
+        res.status(200).send(myLists)
     }catch(err){
         res.status(500).send("Error in line 30 snippet route "+err);
     }
@@ -49,7 +49,7 @@ router.post('/',async(req,res)=>{
     })
     try{
         await snippetD.save()
-        res.send({message : "success"})
+        res.status(201).send({message : "success"})
     }catch(err){
         res.send(err)
     } 

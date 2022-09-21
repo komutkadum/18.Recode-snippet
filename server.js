@@ -12,7 +12,9 @@ const searchRoute = require('./routes/searchRoute');
 const app = express();
 
 // middle ware
-app.use(cors({origin:"*"}))
+app.use(cors({
+  origin:[process.env.CORS_ORIGIN_URL,process.env.CORS_ORIGIN_URL2,process.env.CORS_ORIGIN_URL3]
+}))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
@@ -23,8 +25,7 @@ app.use('/search',searchRoute)
 
 
 // main route
-app.route('/')
-  .get(function (req, res) {
+app.route('/').get(function (req, res) {
     res.sendFile(process.cwd() + '/index.html');
 });
 

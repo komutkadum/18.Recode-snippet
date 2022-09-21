@@ -7,7 +7,7 @@ router.get('/:id',async(req,res)=>{
     const id = req.params.id;     
     try{
         const data = await profileModel.findById(id);
-        if(data!=null){
+        if(data!==null){
             res.send({data,message : "success",additionalMessage : "Data fetching was successful in profile route"})
             return;
         }
@@ -19,21 +19,20 @@ router.get('/:id',async(req,res)=>{
 
 // saving the user  - done
 router.post('/',async(req,res)=>{
-    const { name, email,picture,uid} = req.body;
-    console.log(typeof(uid));
-    console.log(name, email,picture, uid);
-    
+    const { name, email,picture,uid} = req.body;    
     try{
+        // checking if user is already present, dont insert
+        // else insert
         const check = await profileModel.exists({_id : uid})
         if(!check){
             const profileM = new profileModel({_id : uid,name,email,picture});
             await profileM.save()
-            res.send({message : 'success',profileM, additionalMessage : "insertion success in profile route"})
+            res.status(200).send({message : 'success',profileM, additionalMessage : "insertion success in profile route"})
             return;     
         }
-        res.send({message:"success",additionalMessage : "User already present, Not required to insert!!"})
+        res.status(200).send({message:"success",additionalMessage : "User already present, Not required to insert!!"})
     }catch(err){
-        res.send("Error in line 44 of profile route \n" +err);
+        res.status(500).send("Error in line 44 of profile route \n" +err);
     } 
 })
 
