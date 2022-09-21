@@ -13,7 +13,7 @@ const app = express();
 
 // middle ware
 app.use(cors({
-  origin:[process.env.CORS_ORIGIN_URL,process.env.CORS_ORIGIN_URL2,process.env.CORS_ORIGIN_URL3]
+  origin:[process.env.CORS_ORIGIN_URL,process.env.CORS_ORIGIN_URL2,process.env.CORS_ORIGIN_URL3,"*"]
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
