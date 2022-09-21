@@ -12,12 +12,23 @@ const searchRoute = require('./routes/searchRoute');
 const app = express();
 
 // middle ware
-app.use(cors({
-  origin:"*",
-  methods:"GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue:false,
-  optionsSuccessStatus:200
-}))
+// app.use(cors({
+//   origin:"*",
+//   methods:"GET,HEAD,PUT,PATCH,POST,DELETE",
+//   preflightContinue:false,
+//   optionsSuccessStatus:200
+// }))
+app.use(function (req, res, next) {
+  var allowedDomains = ['https://recode-snippet.web.app','http://localhost:3000','https://recode-snippet.firebaseapp.com' ];
+  var origin = req.headers.origin;
+  if(allowedDomains.indexOf(origin) > -1){
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+})
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
