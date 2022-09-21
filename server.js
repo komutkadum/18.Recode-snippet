@@ -19,7 +19,7 @@ const app = express();
 //   optionsSuccessStatus:200
 // }))
 app.use(function (req, res, next) {
-  var allowedDomains = ['https://recode-snippet.web.app','http://localhost:3000','https://recode-snippet.firebaseapp.com' ];
+  var allowedDomains = [process.env.CORS_ORIGIN_URL,process.env.CORS_ORIGIN_URL2,process.env.CORS_ORIGIN_URL3 ];
   var origin = req.headers.origin;
   if(allowedDomains.indexOf(origin) > -1){
     res.setHeader('Access-Control-Allow-Origin', origin);
