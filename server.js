@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+require('dotenv').config();
 // initialisation and connection of mongo
 require('./helpers/init_mongodb')
 
@@ -11,13 +11,6 @@ const searchRoute = require('./routes/searchRoute');
 // creating express 
 const app = express();
 
-// middle ware
-// app.use(cors({
-//   origin:"*",
-//   methods:"GET,HEAD,PUT,PATCH,POST,DELETE",
-//   preflightContinue:false,
-//   optionsSuccessStatus:200
-// }))
 app.use(function (req, res, next) {
   var allowedDomains = [process.env.CORS_ORIGIN_URL,process.env.CORS_ORIGIN_URL2,process.env.CORS_ORIGIN_URL3 ];
   var origin = req.headers.origin;
@@ -36,8 +29,6 @@ app.use(express.urlencoded({extended:true}))
 app.use('/profile',profileRoute)
 app.use('/snippet',snippetRoute)
 app.use('/search',searchRoute)
-
-
 
 // main route
 app.route('/').get(function (req, res) {
