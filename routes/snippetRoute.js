@@ -5,9 +5,18 @@ const SnippetModel = require('../models/snippetModel')
 // simpe route for snippet in snippet.js
 router.get('/:id',async(req,res)=>{
     const id = req.params.id;
+    // destructure page and limit and set default values
+    const { page =1 } = req.query;
+    const limit = 6;
+
     try{
-        const myLists = await SnippetModel.find({userId : id}).sort({ _id: -1 });
-        res.status(200).send(myLists)
+        const myLists = await SnippetModel.find({userId : id}).limit(limit * 1).sort({ _id: -1 }).skip((page - 1) * limit).exec();
+        // const myLists = await SnippetModel.find({userId : id}).sort({ _id: -1 });
+        // get total documents in the Posts collection  
+        const count = await SnippetModel.countDocuments();
+
+        res.status(200).send({myLists,totalPages: Math.ceil(count / limit),
+        currentPage: page})
     }catch(err){
         res.status(500).send(err);
     }
